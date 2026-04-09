@@ -17,9 +17,18 @@ function App() {
       <div>
         <p>Pending</p>
         <ul>
-          <li>Task 1</li>
-          <li>Task 2</li>
-          <li>Task 3</li> 
+          <li>
+            <p>Task</p>
+            <button className='complete-btn'>Complete</button>
+          </li>
+          <li>
+            <p>Task</p>
+            <button className='complete-btn'>Complete</button>
+          </li>
+          <li>
+            <p>Task</p>
+            <button className='complete-btn'>Complete</button>
+          </li>
         </ul>
       </div>
     </section>
@@ -32,9 +41,27 @@ function App() {
       <div>
         <p>Pending</p>
         <ul>
-          <li>Task 1</li>
-          <li>Task 2</li>
-          <li>Task 3</li>
+          <li id="completed-task-data">
+            <div id="completed-task">
+              <p>Tasffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffk</p>
+              <button className = 'undo-btn'>Undo</button>
+            </div>
+            <p>Completed on: 2023-10-01</p>
+          </li>
+          <li id="completed-task-data">
+            <div id="completed-task">
+              <p>fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffk</p>
+              <button className = 'undo-btn'>Undo</button>
+            </div>
+            <p>Completed on: 2023-10-01</p>
+          </li>
+          <li id="completed-task-data">
+            <div id="completed-task">
+              <p>Tasffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffk</p>
+              <button className = 'undo-btn'>Undo</button>
+            </div>
+            <p>Completed on: 2023-10-01</p>
+          </li>
         </ul>
       </div>
     </section>
