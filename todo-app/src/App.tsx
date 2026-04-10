@@ -1,6 +1,16 @@
 import './App.css'
+import { use, useEffect, useState } from 'react';
+import type { todo } from './todos';
 
 function App() {
+  const [todos, setTodos] = useState<todo[]>([]);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then(response => response.json())
+      .then(data => setTodos(data))
+  },[]);
+
   return (
     <>
     <section>
@@ -22,26 +32,22 @@ function App() {
         </select>
       </div>
       </div>
-      <div>
+      <div id='pending-tasks'>
         <p>Pending:</p>
         <ul>
-          <li>
-            <p>Task</p>
-            <button className='complete-btn'>Complete</button>
-          </li>
-          <li>
-            <p>Task</p>
-            <button className='complete-btn'>Complete</button>
-          </li>
-          <li>
-            <p>Task</p>
-            <button className='complete-btn'>Complete</button>
-          </li>
+          {
+            todos?.map((data) => (
+              <li>
+                <p>{data.title}</p>
+                <button className='complete-btn'>Complete</button>
+              </li>
+            ))
+          }
         </ul>
       </div>
     </section>
     <section>
-      <div>
+      <div id='completed-selection'>
         <label htmlFor="completed-tasks-sort">Sort:</label>
         <select id="completed-tasks-sort">
           <option value="option1">Date(asc)</option>
@@ -49,30 +55,20 @@ function App() {
           <option value="option3">Option 3</option>
         </select>
       </div>
-      <div>
+      <div id='completed-tasks'>
         <p>Completed: </p>
         <ul>
-          <li id="completed-task-data">
-            <div id="completed-task">
-              <p>Completed task 1</p>
-              <button className = 'undo-btn'>Undo</button>
-            </div>
-            <p className="completed-date">Completed on: 2023-10-01</p>
-          </li>
-          <li id="completed-task-data">
-            <div id="completed-task">
-              <p>Completed task 2</p>
-              <button className = 'undo-btn'>Undo</button>
-            </div>
-            <p className="completed-date">Completed on: 2023-10-01</p>
-          </li>
-          <li id="completed-task-data">
-            <div id="completed-task">
-              <p>Completed task 3</p>
-              <button className = 'undo-btn'>Undo</button>
-            </div>
-            <p className="completed-date">Completed on: 2023-10-01</p>
-          </li>
+          {
+            todos?.map((data) => (
+              <li id="completed-task-data">
+                <div id="completed-task">
+                  <p>{data.title}</p>
+                  <button className = 'undo-btn'>Undo</button>
+                </div>
+                <p className="completed-date">Completed on: 2023-10-01</p>
+              </li>
+            ))
+          }
         </ul>
       </div>
     </section>

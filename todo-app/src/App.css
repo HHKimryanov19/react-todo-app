@@ -9,6 +9,7 @@ body{
   display: flex;
   justify-content: center;
   flex-direction: row;
+  background-color: snow;
 }
 
 #root{
@@ -20,9 +21,6 @@ body{
 }
 
 section{
-  border-radius: 5px;
-  padding: 30px 20px 40px 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 30%;
   height: fit-content;
 }
@@ -92,7 +90,7 @@ select{
   margin-right: 10px;
 }
 
-#pending-selections{
+#pending-selections, #completed-selection{
   display: flex;
 }
 
@@ -101,10 +99,9 @@ select{
   flex-direction: column;
   justify-content: center;
   width: 50%;
-  gap: 10px;
 }
 
-#pending-selections label{
+#pending-selections,#completed-selection label{
   font-size: 14px;
 }
 
@@ -112,9 +109,29 @@ select{
   padding: 5px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  width: 20%;
 }
 
+#completed-selection{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#completed-selection>select{
+  width: 50%;
+}
+
+#completed-tasks, #pending-tasks{
+  border-radius: 10px;
+  padding: 15px 20px 40px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  background-color: white;
+}
+
+#completed-tasks>p, #pending-tasks>p{
+  margin-top: 0px;
+}
 /*
 .counter {
   font-size: 16px;
