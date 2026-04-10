@@ -6,6 +6,10 @@ function App() {
   const [pending, setPending] = useState<todo[]>([]);
   const [completed, setCompleted] = useState<todo[]>([]);
   const [page, setPage] = useState<number>(0);
+  const [person, setPerson] = useState(-1);
+  const [sortP, setSortP] = useState('');
+  const [sortC, setSortC] = useState('');
+  const names: string[] = ['person1','person2','person3','person4','person5','person6','person7','person8','person9','person10']
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos')
@@ -65,10 +69,13 @@ function App() {
       <div id='pending-selections'>
         <div>
         <label htmlFor="people">Filter by:</label>
-        <select id='people'>
-          <option value="option1">Names</option>
-          <option value="option2">Option 2</option>
-          <option value="option3">Option 3</option>
+        <select id='people' onChange = {e => setPerson(parseInt(e.target.value))}>
+          <option value={-1}>Names</option>
+          {
+            names.map((name,id) => (
+              <option value={id+1}>{name}</option>
+            ))
+          }
         </select>
       </div>
       <div>
@@ -84,11 +91,18 @@ function App() {
         <p>Pending:</p>
         <div id="pagination-btn">
           {page > 0 ? <button onClick={() => setPage(page - 1)}>Previous Page</button> : null}
-          {(page+1)*10 < pending.length ? <button onClick={() => setPage(page + 1)}>Next Page</button> : null}
+          {(page+1)*6 < (person == -1 ? pending.length:pending.filter((data) => data.userId == person).length) ? <button onClick={() => setPage(page + 1)}>Next Page</button> : null}
         </div>
         <ul>
           {
-            pending.slice(10*page,10*page+10).map((data) => (
+            person == -1 ?
+            pending.slice(6*page,6*page+6).map((data) => (
+            <li key={data.id}>
+              <p>{data.title}</p>
+              <button onClick={() => changeStatus(data.id, true)} className='complete-btn'>Complete</button>
+            </li>
+            )):
+              pending.filter((data) => data.userId == person).slice(6*page,6*page+6).map((data) => (
               <li key={data.id}>
                 <p>{data.title}</p>
                 <button onClick={() => changeStatus(data.id, true)} className='complete-btn'>Complete</button>
@@ -111,11 +125,22 @@ function App() {
         <p>Completed: </p>
         <div id="pagination-btn">
           {page > 0 ? <button onClick={() => setPage(page - 1)}>Previous Page</button> : null}
-          {(page+1)*10 < completed.length ? <button onClick={() => setPage(page + 1)}>Next Page</button> : null}
+          {(page+1)*6 < (person == -1 ?completed.length:completed.filter((data) => data.userId == person).length) ? <button onClick={() => setPage(page + 1)}>Next Page</button> : null}
         </div>
         <ul>
           {
-            completed.slice(10*page,10*page+10).map((data) => (
+            person == -1 ?
+            completed.slice(6*page,6*page+6).map((data) => (
+              <li id="completed-task-data" key={data.id}>
+                <div id="completed-task">
+                  <p>{data.title}</p>
+                  <button onClick={() => changeStatus(data.id, false)} className = 'undo-btn'>Undo</button>
+                </div>
+                <p className="completed-date">Completed on: {data.date}</p>
+              </li>
+            ))
+            :
+            completed.filter((data) => data.userId == person).slice(6*page,6*page+6).map((data) => (
               <li id="completed-task-data" key={data.id}>
                 <div id="completed-task">
                   <p>{data.title}</p>
