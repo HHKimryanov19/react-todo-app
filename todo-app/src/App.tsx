@@ -1,31 +1,62 @@
 import './App.css'
-import { use, useEffect, useState } from 'react';
+import {useEffect, useState } from 'react';
 import type { todo } from './todos';
-import { methods } from './methods';
 
 function App() {
-  const [todos, setTodos] = useState<todo[]>([]);
   const [pending, setPending] = useState<todo[]>([]);
   const [completed, setCompleted] = useState<todo[]>([]);
+  const [page, setPage] = useState<number>(0);
 
   useEffect(() => {
-    methods.getAll(setTodos);
-    setPending(todos.filter((todo) => !todo.completed));
-    setCompleted(todos.filter((todo) => todo.completed));
-    setTodos(todos);
+    fetch('https://jsonplaceholder.typicode.com/todos')
+        .then(response => response.json())
+        .then(data => {
+            data = data.map((element: todo) => {
+                if(element.completed) {
+                    return { ...element, date: new Date(2026, 2, 18).toISOString().split('T')[0] };
+                }
+                return element;
+            });
+            setPending(data.filter((element: todo) => !element.completed))
+            setCompleted(data.filter((element: todo) => element.completed))
+        });
   },[]);
 
   function changeStatus(id: number, status: boolean): void {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        if(status) {
-          return { ...todo, completed: status, date: new Date().toISOString().split('T')[0] };
-        }
-        return { ...todo, completed: status, date: undefined };
-      }
-      return todo;
-    });
-    setTodos(updatedTodos);
+    if(status)
+    {
+      setPending(pending => {
+        return pending.filter(task => {
+          if(task.id !== id)
+          {
+            return task;
+          }
+          else
+          {
+            task.completed = true;
+            task.date = new Date().toISOString().split('T')[0];
+            setCompleted([...completed, task]);
+          }
+        });
+      })
+    }
+    else
+    {
+      setCompleted(completed => {
+        return completed.filter(task => {
+          if(task.id !== id)
+          {
+            return task;
+          }
+          else
+          {
+            task.completed = false;
+            task.date = undefined;
+            setPending([...pending, task]);
+          }
+        });
+      })
+    }
   }
 
   return (
@@ -51,9 +82,13 @@ function App() {
       </div>
       <div id='pending-tasks'>
         <p>Pending:</p>
+        <div id="pagination-btn">
+          {page > 0 ? <button onClick={() => setPage(page - 1)}>Previous Page</button> : null}
+          {(page+1)*10 < pending.length ? <button onClick={() => setPage(page + 1)}>Next Page</button> : null}
+        </div>
         <ul>
           {
-            todos?.filter((todo) => !todo.completed).map((data) => (
+            pending.slice(10*page,10*page+10).map((data) => (
               <li key={data.id}>
                 <p>{data.title}</p>
                 <button onClick={() => changeStatus(data.id, true)} className='complete-btn'>Complete</button>
@@ -74,9 +109,13 @@ function App() {
       </div>
       <div id='completed-tasks'>
         <p>Completed: </p>
+        <div id="pagination-btn">
+          {page > 0 ? <button onClick={() => setPage(page - 1)}>Previous Page</button> : null}
+          {(page+1)*10 < completed.length ? <button onClick={() => setPage(page + 1)}>Next Page</button> : null}
+        </div>
         <ul>
           {
-            todos?.filter((todo) => todo.completed).map((data) => (
+            completed.slice(10*page,10*page+10).map((data) => (
               <li id="completed-task-data" key={data.id}>
                 <div id="completed-task">
                   <p>{data.title}</p>

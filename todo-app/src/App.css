@@ -132,6 +132,15 @@ select{
 #completed-tasks>p, #pending-tasks>p{
   margin-top: 0px;
 }
+
+#pagination-btn{
+  display:flex;
+  flex-direction: row;
+}
+
+#pagination-btn>button{
+  margin-right:10px;
+}
 /*
 .counter {
   font-size: 16px;
