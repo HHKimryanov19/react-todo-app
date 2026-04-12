@@ -43,6 +43,10 @@ button{
   align-self: center;
 }
 
+button:hover{
+  background-color: #2563eb;
+}
+
 ul{
   margin: 30px 0 0 50px;
   list-style-type: none;
@@ -77,12 +81,20 @@ p{
   background-color: #00ab90;
 }
 
+.complete-btn:hover{
+  background-color: #008f78
+}
+
 .undo-btn{
-  background-color: #ffdb00;
+  background-color: #f59e0b;
+}
+
+.undo-btn:hover{
+  background-color: #d98a06;
 }
 
 .completed-date{
-  color:#00ab90;
+  color:#559486;
 }
 
 select{

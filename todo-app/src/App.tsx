@@ -1,10 +1,13 @@
 import './App.css'
 import {useEffect, useState } from 'react';
-import type { todo } from './types/todos.ts';
+import type { todo } from './types/todo.ts';
 import PendingList from './components/lists/PendingList.tsx'
 import CompletedList from './components/lists/CompletedList.tsx'
+import type { user } from './types/user.ts'
+import { ListContext } from './contexts/listContext.ts'
 
 function App() {
+  const [users, setUsers] = useState<user[]>([]);
   const [pending, setPending] = useState<todo[]>([]);
   const [completed, setCompleted] = useState<todo[]>([]);
   const [pendingPage, setPendingPage] = useState<number>(0);
@@ -12,7 +15,6 @@ function App() {
   const [person, setPerson] = useState(-1);
   const [sortP, setSortP] = useState(0);
   const [sortC, setSortC] = useState(0);
-  const names: string[] = ['person1','person2','person3','person4','person5','person6','person7','person8','person9','person10']
   function sortPending(newList:todo[])
   {
     if(sortP === 0)
@@ -62,6 +64,10 @@ function App() {
       return (a.date > b.date) ? 1 : (a.date < b.date) ? -1 : 0;
     }))
         });
+
+      fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+        .then(data => setUsers(data))
   },[]);
 
   useEffect(() => {
@@ -86,8 +92,8 @@ function App() {
           <select id='people' onChange = {e => setPerson(parseInt(e.target.value))}>
             <option value={-1}></option>
             {
-              names.map((name,id) => (
-                <option value={id+1}>{name}</option>
+              users.map((item) => (
+                <option value={item.id}>{item.username}</option>
               ))
             }
           </select>
@@ -100,9 +106,10 @@ function App() {
           </select>
         </div>
       </div>
-      <PendingList person={person} states = {{pending, completed, setPending, setCompleted}} 
-      page={pendingPage} setPage={setPendingPage} sort={sortCompleted}>
-      </PendingList>
+      <ListContext.Provider value={{pending, completed, setPending, setCompleted,person,page:pendingPage,
+        setPage:setPendingPage,sort:sortCompleted}}>
+        <PendingList></PendingList>
+      </ListContext.Provider>
     </section>
     <section>
       <div id='completed-selection'>
@@ -112,9 +119,10 @@ function App() {
           <option value="1">Date(desc)</option>
         </select>
       </div>
-        <CompletedList person={person} states = {{pending, completed, setPending, setCompleted}}
-        page={completedPage} setPage={setCompletedPage} sort={sortPending}>
-        </CompletedList>
+      <ListContext.Provider value={{pending, completed, setPending, setCompleted,person,page:completedPage,
+        setPage:setCompletedPage,sort:sortPending}}>
+         <CompletedList></CompletedList>
+      </ListContext.Provider>
     </section>
     </>
   )

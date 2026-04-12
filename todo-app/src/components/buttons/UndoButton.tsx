@@ -1,19 +1,20 @@
-import type {todo} from '../../types/todos'
-import type {taskStates} from '../../types/taskStates'
+import type {todo} from '../../types/todo'
+import { ButtonContext } from '../../contexts/ButtonContext'
+import { useContext } from 'react'
+
 
 type props = {
   item: todo
-  states: taskStates
-  sort: (prop: todo[]) => void
 }
 
-export default function UndoButton({item, states, sort}:props)
+export default function UndoButton({item}:props)
 {
-    let pending = states.pending
-    let setCompleted = states.setCompleted
-
+    const context = useContext(ButtonContext)
+    
+    if(context!=null)
+    {
     function changeStatus(id: number): void {
-        setCompleted(completed => {
+        context?.setCompleted(completed => {
             return completed.filter(task => {
                 if(task.id !== id)
                 {
@@ -23,7 +24,7 @@ export default function UndoButton({item, states, sort}:props)
                 {
                     task.completed = false;
                     task.date = '';
-                    sort([...pending, task]);
+                    context.sort([... context.pending, task]);
                 }
             });
         })
@@ -32,4 +33,5 @@ export default function UndoButton({item, states, sort}:props)
     return (<>
         <button onClick={() => changeStatus(item.id)} className = "undo-btn">Undo</button>
     </>)
+    }
 }

@@ -1,19 +1,19 @@
-import type {todo} from '../../types/todos'
-import type {taskStates} from '../../types/taskStates'
+import type {todo} from '../../types/todo'
+import { ButtonContext } from '../../contexts/ButtonContext'
+import { useContext } from 'react'
 
-type props = {
-  item: todo
-  states: taskStates
-  sort: (prop: todo[]) => void
+type prop = {
+    item: todo
 }
 
-export default function CompleteButton({item, states, sort}:props)
+export default function CompleteButton({item}:prop)
 {
-    let completed = states.completed
-    let setPending = states.setPending
+    const context = useContext(ButtonContext)
 
+    if(context!=null)
+    {
     function changeStatus(id: number): void {
-        setPending(pending => {
+        context?.setPending(pending => {
             return pending.filter(task => {
                 if(task.id !== id)
                 {
@@ -23,7 +23,7 @@ export default function CompleteButton({item, states, sort}:props)
                 {
                     task.completed = true;
                     task.date = new Date().toISOString().split('T')[0];
-                    sort([...completed, task]);
+                    context.sort([...context.completed, task]);
                 }
             });
         })
@@ -32,4 +32,5 @@ export default function CompleteButton({item, states, sort}:props)
     return (<>
         <button onClick={() => changeStatus(item.id)} className = "complete-btn">Complete</button>
     </>)
+    }
 }
