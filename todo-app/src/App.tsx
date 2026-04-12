@@ -1,6 +1,8 @@
 import './App.css'
 import {useEffect, useState } from 'react';
-import type { todo } from './todos';
+import type { todo } from './types/todos.ts';
+import CompleteButton from './components/buttons/CompleteButton.tsx'
+import UndoButton from './components/buttons/UndoButton.tsx'
 
 function App() {
   const [pending, setPending] = useState<todo[]>([]);
@@ -11,7 +13,6 @@ function App() {
   const [sortP, setSortP] = useState(0);
   const [sortC, setSortC] = useState(0);
   const names: string[] = ['person1','person2','person3','person4','person5','person6','person7','person8','person9','person10']
-
   function sortPending(newList:todo[])
   {
     console.log('sort');
@@ -77,44 +78,6 @@ function App() {
     sortCompleted(completed);
   },[sortC])
 
-  function changeStatus(id: number, status: boolean): void {
-    if(status)
-    {
-      setPending(pending => {
-        return pending.filter(task => {
-          if(task.id !== id)
-          {
-            return task;
-          }
-          else
-          {
-            task.completed = true;
-            task.date = new Date().toISOString().split('T')[0];
-            sortCompleted([...completed, task]);
-          }
-        });
-      })
-    }
-    else
-    {
-      setCompleted(completed => {
-        return completed.filter(task => {
-          if(task.id !== id)
-          {
-            return task;
-          }
-          else
-          {
-            task.completed = false;
-            task.date = '';
-            sortPending([...pending, task]);
-          }
-        });
-      })
-      
-    }
-  }
-
   return (
     <>
     <section>
@@ -122,7 +85,7 @@ function App() {
         <div>
         <label htmlFor="people">Filter by:</label>
         <select id='people' onChange = {e => setPerson(parseInt(e.target.value))}>
-          <option value={-1}>Names</option>
+          <option value={-1}></option>
           {
             names.map((name,id) => (
               <option value={id+1}>{name}</option>
@@ -150,13 +113,13 @@ function App() {
             pending.slice(6*pendingPage,6*pendingPage+6).map((data) => (
             <li key={data.id}>
               <p>{data.title}</p>
-              <button onClick={() => changeStatus(data.id, true)} className='complete-btn'>Complete</button>
+              <CompleteButton item={data} sort={sortCompleted} states = {{pending, completed, setPending, setCompleted}}></CompleteButton>
             </li>
             )):
               pending.filter((data) => data.userId == person).slice(6*pendingPage,6*pendingPage+6).map((data) => (
               <li key={data.id}>
                 <p>{data.title}</p>
-                <button onClick={() => changeStatus(data.id, true)} className='complete-btn'>Complete</button>
+                <CompleteButton item={data} sort={sortCompleted} states = {{pending, completed, setPending, setCompleted}}></CompleteButton>
               </li>
             ))
           }
@@ -184,7 +147,7 @@ function App() {
               <li id="completed-task-data" key={data.id}>
                 <div id="completed-task">
                   <p>{data.title}</p>
-                  <button onClick={() => changeStatus(data.id, false)} className = 'undo-btn'>Undo</button>
+                  <UndoButton item={data} states = {{pending, completed, setPending, setCompleted}} sort={sortPending}></UndoButton>
                 </div>
                 <p className="completed-date">Completed on: {data.date}</p>
               </li>
@@ -194,7 +157,7 @@ function App() {
               <li id="completed-task-data" key={data.id}>
                 <div id="completed-task">
                   <p>{data.title}</p>
-                  <button onClick={() => changeStatus(data.id, false)} className = 'undo-btn'>Undo</button>
+                  <UndoButton item={data} states = {{pending, completed, setPending, setCompleted}} sort={sortPending}></UndoButton>
                 </div>
                 <p className="completed-date">Completed on: {data.date}</p>
               </li>
