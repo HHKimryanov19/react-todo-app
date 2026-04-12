@@ -12,20 +12,37 @@ function App() {
   const [sortC, setSortC] = useState(0);
   const names: string[] = ['person1','person2','person3','person4','person5','person6','person7','person8','person9','person10']
 
-  function sortPending()
+  function sortPending(newList:todo[])
   {
+    console.log('sort');
     if(sortP === 0)
     {
-      setPending([...pending].sort((a,b) => {
+      setPending([...newList].sort((a,b) => {
       return a.title > b.title ? 1 : a.title < b.title ? -1 : 0;
       }))
     }
     else
     {
-      setPending([...pending].sort((a,b) => {
+      setPending([...newList].sort((a,b) => {
       return a.title > b.title ? -1 : a.title < b.title ? 1 : 0;
       }))
     }
+  }
+
+  function sortCompleted(newList:todo[])
+  {
+    if(sortC === 0)
+    {
+      setCompleted([...newList].sort((a,b) => {
+      return a.date > b.date ? 1 : a.date < b.date ? -1 : 0;
+      }))
+    }
+    else
+    {
+      setCompleted([...newList].sort((a,b) => {
+      return a.date > b.date ? -1 : a.date < b.date ? 1 : 0;
+      }))
+    } 
   }
 
   useEffect(() => {
@@ -53,22 +70,11 @@ function App() {
   },[person])
 
   useEffect(() =>{
-    sortPending();
+    sortPending(pending);
   },[sortP])
 
   useEffect(() =>{
-    if(sortC === 0)
-    {
-      setCompleted([...completed].sort((a,b) => {
-      return a.date > b.date ? 1 : a.date < b.date ? -1 : 0;
-      }))
-    }
-    else
-    {
-      setCompleted([...completed].sort((a,b) => {
-      return a.date > b.date ? -1 : a.date < b.date ? 1 : 0;
-      }))
-    } 
+    sortCompleted(completed);
   },[sortC])
 
   function changeStatus(id: number, status: boolean): void {
@@ -84,7 +90,7 @@ function App() {
           {
             task.completed = true;
             task.date = new Date().toISOString().split('T')[0];
-            setCompleted([...completed, task]);
+            sortCompleted([...completed, task]);
           }
         });
       })
@@ -101,10 +107,11 @@ function App() {
           {
             task.completed = false;
             task.date = '';
-            setPending([...pending, task]);
+            sortPending([...pending, task]);
           }
         });
       })
+      
     }
   }
 
