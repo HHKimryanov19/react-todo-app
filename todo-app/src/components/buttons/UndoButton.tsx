@@ -3,8 +3,8 @@ import type {taskStates} from '../../types/taskStates'
 
 type props = {
   item: todo
-  sort: (prop: todo[]) => void
   states: taskStates
+  sort: (prop: todo[]) => void
 }
 
 export default function UndoButton({item, states, sort}:props)

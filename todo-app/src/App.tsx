@@ -1,8 +1,8 @@
 import './App.css'
 import {useEffect, useState } from 'react';
 import type { todo } from './types/todos.ts';
-import CompleteButton from './components/buttons/CompleteButton.tsx'
-import UndoButton from './components/buttons/UndoButton.tsx'
+import PendingList from './components/lists/PendingList.tsx'
+import CompletedList from './components/lists/CompletedList.tsx'
 
 function App() {
   const [pending, setPending] = useState<todo[]>([]);
@@ -15,7 +15,6 @@ function App() {
   const names: string[] = ['person1','person2','person3','person4','person5','person6','person7','person8','person9','person10']
   function sortPending(newList:todo[])
   {
-    console.log('sort');
     if(sortP === 0)
     {
       setPending([...newList].sort((a,b) => {
@@ -83,48 +82,27 @@ function App() {
     <section>
       <div id='pending-selections'>
         <div>
-        <label htmlFor="people">Filter by:</label>
-        <select id='people' onChange = {e => setPerson(parseInt(e.target.value))}>
-          <option value={-1}></option>
-          {
-            names.map((name,id) => (
-              <option value={id+1}>{name}</option>
-            ))
-          }
-        </select>
-      </div>
-      <div>
-        <label htmlFor="pending-tasks-sort">Sort:</label>
-        <select id="pending-tasks-sort" onChange = {e => setSortP(parseInt(e.target.value))}>
-          <option value='0'>Titles(asc)</option>
-          <option value="1">Titles(desc)</option>
-        </select>
-      </div>
-      </div>
-      <div id='pending-tasks'>
-        <p>Pending:</p>
-        <div id="pagination-btn">
-          {pendingPage > 0 ? <button onClick={() => setPendingPage(pendingPage - 1)}>Previous</button> : null}
-          {(pendingPage+1)*6 < (person == -1 ? pending.length:pending.filter((data) => data.userId == person).length) ? <button onClick={() => setPendingPage(pendingPage + 1)}>Next</button> : null}
+          <label htmlFor="people">Filter by:</label>
+          <select id='people' onChange = {e => setPerson(parseInt(e.target.value))}>
+            <option value={-1}></option>
+            {
+              names.map((name,id) => (
+                <option value={id+1}>{name}</option>
+              ))
+            }
+          </select>
         </div>
-        <ul>
-          {
-            person == -1 ?
-            pending.slice(6*pendingPage,6*pendingPage+6).map((data) => (
-            <li key={data.id}>
-              <p>{data.title}</p>
-              <CompleteButton item={data} sort={sortCompleted} states = {{pending, completed, setPending, setCompleted}}></CompleteButton>
-            </li>
-            )):
-              pending.filter((data) => data.userId == person).slice(6*pendingPage,6*pendingPage+6).map((data) => (
-              <li key={data.id}>
-                <p>{data.title}</p>
-                <CompleteButton item={data} sort={sortCompleted} states = {{pending, completed, setPending, setCompleted}}></CompleteButton>
-              </li>
-            ))
-          }
-        </ul>
+        <div>
+          <label htmlFor="pending-tasks-sort">Sort:</label>
+          <select id="pending-tasks-sort" onChange = {e => setSortP(parseInt(e.target.value))}>
+            <option value='0'>Titles(asc)</option>
+            <option value="1">Titles(desc)</option>
+          </select>
+        </div>
       </div>
+      <PendingList person={person} states = {{pending, completed, setPending, setCompleted}} 
+      page={pendingPage} setPage={setPendingPage} sort={sortCompleted}>
+      </PendingList>
     </section>
     <section>
       <div id='completed-selection'>
@@ -134,41 +112,12 @@ function App() {
           <option value="1">Date(desc)</option>
         </select>
       </div>
-      <div id='completed-tasks'>
-        <p>Completed: </p>
-        <div id="pagination-btn">
-          {completedPage > 0 ? <button onClick={() => setCompletedPage(completedPage - 1)}>Previous</button> : null}
-          {(completedPage+1)*6 < (person == -1 ?completed.length:completed.filter((data) => data.userId == person).length) ? <button onClick={() => setCompletedPage(completedPage + 1)}>Next</button> : null}
-        </div>
-        <ul>
-          {
-            person == -1 ?
-            completed.slice(6*completedPage,6*completedPage+6).map((data) => (
-              <li id="completed-task-data" key={data.id}>
-                <div id="completed-task">
-                  <p>{data.title}</p>
-                  <UndoButton item={data} states = {{pending, completed, setPending, setCompleted}} sort={sortPending}></UndoButton>
-                </div>
-                <p className="completed-date">Completed on: {data.date}</p>
-              </li>
-            ))
-            :
-            completed.filter((data) => data.userId == person).slice(6*completedPage,6*completedPage+6).map((data) => (
-              <li id="completed-task-data" key={data.id}>
-                <div id="completed-task">
-                  <p>{data.title}</p>
-                  <UndoButton item={data} states = {{pending, completed, setPending, setCompleted}} sort={sortPending}></UndoButton>
-                </div>
-                <p className="completed-date">Completed on: {data.date}</p>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+        <CompletedList person={person} states = {{pending, completed, setPending, setCompleted}}
+        page={completedPage} setPage={setCompletedPage} sort={sortPending}>
+        </CompletedList>
     </section>
     </>
   )
 }
-
 
 export default App
