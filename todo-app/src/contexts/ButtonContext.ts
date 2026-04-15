@@ -6,7 +6,7 @@ type buttonContext = {
     completed: todo[],
     setPending: (prop: React.SetStateAction<todo[]>) => void,
     setCompleted: (prop: React.SetStateAction<todo[]>) => void,
-    sort: (prop: todo[]) => void
+    sortType: number,
 }
 
 export const ButtonContext = createContext<buttonContext | null>(null)

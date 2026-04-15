@@ -145,14 +145,20 @@ select{
   margin-top: 0px;
 }
 
-#pagination-btn{
+.pagination-btn{
   display:flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
-#pagination-btn>button{
+.pagination-btn>button{
   margin-right:10px;
 }
+
+.unactive-btn,.unactive-btn:hover{
+  background-color: gray;
+}
+
 /*
 .counter {
   font-size: 16px;
