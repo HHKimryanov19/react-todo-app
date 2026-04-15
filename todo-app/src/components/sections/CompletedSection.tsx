@@ -1,12 +1,12 @@
 import UndoButton from '../buttons/UndoButton'
-import { ListContext } from '../../contexts/ListContext'
+import { SectionContext } from '../../contexts/SectionContext'
 import { ButtonContext } from '../../contexts/ButtonContext'
 import { useContext, useEffect, useState } from 'react'
 
 
 export default function CompletedList() {
   const [page, setPage] = useState<number>(0);
-  const context = useContext(ListContext)
+  const context = useContext(SectionContext)
 
   if (context != null) {
     useEffect(() => {
@@ -22,7 +22,7 @@ export default function CompletedList() {
     }, [context.completedSortType])
 
     return (
-      <>
+      <section>
         <div id='completed-selection'>
           <label htmlFor="completed-tasks-sort">Sort:</label>
           <select id="completed-tasks-sort" onChange={e => context.setCompletedSortType(parseInt(e.target.value))}>
@@ -33,33 +33,34 @@ export default function CompletedList() {
         <div id='completed-tasks'>
           <p>Completed: </p>
           <div className="pagination-btn">
-            {page > 0 ? <button onClick={() => setPage(page - 1)}>Previous</button> : 
-            <button className="unactive-btn">Previous</button>}
+            {page > 0 ? <button onClick={() => setPage(page - 1)}>Previous</button> :
+              <button className="unactive-btn">Previous</button>}
             {(page + 1) * 6 < context.completed.filter((data) => data.userId == context.person || context.person == -1).length ?
-              <button onClick={() => setPage(page + 1)}>Next</button> : 
+              <button onClick={() => setPage(page + 1)}>Next</button> :
               <button className="unactive-btn">Next</button>}
           </div>
           <ul>
             {
-              context.completed.filter((data) => data.userId == context.person || context.person == -1).slice(6 * page, 6 * page + 6).map((data) => (
-                <li id="completed-task-data" key={data.id}>
-                  <div id="completed-task">
-                    <p>{data.title}</p>
-                    <ButtonContext.Provider value={{
-                      pending: context.pending, completed: context.completed,
-                      setPending: context.setPending, setCompleted: context.setCompleted, sortType: context.pendingSortType
-                    }}>
-                      <UndoButton item={data}></UndoButton>
-                    </ButtonContext.Provider>
-
-                  </div>
-                  <p className="completed-date">Completed on: {data.date}</p>
-                </li>
-              ))
+              context.completed
+                .filter((data) => data.userId == context.person || context.person == -1)
+                .slice(6 * page, 6 * page + 6).map((data) => (
+                  <li id="completed-task-data" key={data.id}>
+                    <div id="completed-task">
+                      <p>{data.title}</p>
+                      <ButtonContext.Provider value={{
+                        pending: context.pending, completed: context.completed,
+                        setPending: context.setPending, setCompleted: context.setCompleted, sortType: context.pendingSortType
+                      }}>
+                        <UndoButton item={data}></UndoButton>
+                      </ButtonContext.Provider>
+                    </div>
+                    <p className="completed-date">Completed on: {data.date}</p>
+                  </li>
+                ))
             }
           </ul>
         </div>
-      </>
+      </section>
     )
   }
 }

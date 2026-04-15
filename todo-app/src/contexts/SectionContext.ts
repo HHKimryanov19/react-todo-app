@@ -2,7 +2,7 @@ import { createContext } from "react";
 import type { todo } from '../types/todo';
 import type { user } from '../types/user'
 
-type ListContext = {
+type sectionContext = {
     pending: todo[],
     completed: todo[],
     setPending: (prop: React.SetStateAction<todo[]>) => void,
@@ -16,4 +16,4 @@ type ListContext = {
     users: user[]
 }
 
-export const ListContext = createContext<ListContext | null>(null)
+export const SectionContext = createContext<sectionContext | null>(null)

@@ -1,10 +1,10 @@
 import './App.css'
 import { useEffect, useState } from 'react';
 import type { todo } from './types/todo.ts';
-import PendingList from './components/lists/PendingList.tsx'
-import CompletedList from './components/lists/CompletedList.tsx'
+import PendingSection from './components/sections/PendingSection.tsx'
+import CompletedSection from './components/sections/CompletedSection.tsx'
 import type { user } from './types/user.ts'
-import { ListContext } from './contexts/ListContext.ts'
+import { SectionContext } from './contexts/SectionContext.ts'
 
 function App() {
   const [users, setUsers] = useState<user[]>([]);
@@ -40,22 +40,20 @@ function App() {
 
   return (
     <>
-      <section>
-        <ListContext.Provider value={{
+        <SectionContext.Provider value={{
           pending, completed, setPending, setCompleted, person, setPerson, pendingSortType: sortP, completedSortType: sortC, setPendingSortType: setSortP,
           setCompletedSortType: setSortC, users
         }}>
-          <PendingList></PendingList>
-        </ListContext.Provider>
-      </section>
-      <section>
-        <ListContext.Provider value={{
+          <PendingSection></PendingSection>
+        </SectionContext.Provider>
+     
+        <SectionContext.Provider value={{
           pending, completed, setPending, setCompleted, person, setPerson, pendingSortType: sortP, completedSortType: sortC, setPendingSortType: setSortP,
           setCompletedSortType: setSortC, users
         }}>
-          <CompletedList></CompletedList>
-        </ListContext.Provider>
-      </section>
+          <CompletedSection></CompletedSection>
+        </SectionContext.Provider>
+      
     </>
   )
 }
