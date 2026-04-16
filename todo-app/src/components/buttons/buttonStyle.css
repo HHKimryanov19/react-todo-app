@@ -1,0 +1,46 @@
+button {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  height: fit-content;
+  width: fit-content;
+  align-self: center;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
+
+.complete-btn {
+  background-color: #00ab90;
+}
+
+.complete-btn:hover {
+  background-color: #008f78
+}
+
+.undo-btn {
+  background-color: #f59e0b;
+}
+
+.undo-btn:hover {
+  background-color: #d98a06;
+}
+
+.pagination-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.pagination-btn>button {
+  margin-right: 10px;
+}
+
+.unactive-btn,
+.unactive-btn:hover {
+  background-color: gray;
+}

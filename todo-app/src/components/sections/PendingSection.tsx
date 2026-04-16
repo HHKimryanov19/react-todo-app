@@ -1,6 +1,7 @@
 import CompleteButton from '../buttons/CompleteButton'
 import { SectionContext } from '../../contexts/SectionContext'
 import { ButtonContext } from '../../contexts/ButtonContext'
+import PaginationButtons from '../buttons/PaginationButtons'
 import { useContext, useEffect, useState } from 'react'
 
 export default function PendingList() {
@@ -45,13 +46,7 @@ export default function PendingList() {
                     </div>
                     <div id='pending-tasks'>
                         <p>Pending:</p>
-                        <div className="pagination-btn">
-                            {page > 0 ? <button onClick={() => setPage(page - 1)}>Previous</button> :
-                                <button className="unactive-btn">Previous</button>}
-                            {(page + 1) * 6 < context.pending.filter((data) => data.userId == context.person || context.person == -1).length ?
-                                <button onClick={() => setPage(page + 1)}>Next</button> :
-                                <button className="unactive-btn">Next</button>}
-                        </div>
+                        <PaginationButtons page={page} list={context.pending} person={context.person} setPage={setPage}></PaginationButtons>
                         <ul>
                             {
                                 context.pending

@@ -2,7 +2,7 @@ import UndoButton from '../buttons/UndoButton'
 import { SectionContext } from '../../contexts/SectionContext'
 import { ButtonContext } from '../../contexts/ButtonContext'
 import { useContext, useEffect, useState } from 'react'
-
+import PaginationButtons from '../buttons/PaginationButtons'
 
 export default function CompletedList() {
   const [page, setPage] = useState<number>(0);
@@ -32,13 +32,7 @@ export default function CompletedList() {
         </div>
         <div id='completed-tasks'>
           <p>Completed: </p>
-          <div className="pagination-btn">
-            {page > 0 ? <button onClick={() => setPage(page - 1)}>Previous</button> :
-              <button className="unactive-btn">Previous</button>}
-            {(page + 1) * 6 < context.completed.filter((data) => data.userId == context.person || context.person == -1).length ?
-              <button onClick={() => setPage(page + 1)}>Next</button> :
-              <button className="unactive-btn">Next</button>}
-          </div>
+          <PaginationButtons page={page} list={context.completed} person={context.person} setPage={setPage}></PaginationButtons>
           <ul>
             {
               context.completed

@@ -1,4 +1,6 @@
 import './App.css'
+import './components/buttons/buttonStyle.css'
+import './components/sections/sectionStyle.css'
 import { useEffect, useState } from 'react';
 import type { todo } from './types/todo.ts';
 import PendingSection from './components/sections/PendingSection.tsx'
