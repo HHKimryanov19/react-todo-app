@@ -13,8 +13,19 @@ function App() {
   const [pending, setPending] = useState<Todo[]>([]);
   const [completed, setCompleted] = useState<Todo[]>([]);
   const [person, setPerson] = useState(-1);
-  const [pendingSortType, setPendingSortType] = useState(0);
-  const [completedSortType, setCompletedSortType] = useState(0);
+  const [pendingSortType, setPendingSortType] = useState(1);
+  const [completedSortType, setCompletedSortType] = useState(1);
+
+  function randomDate() {
+        const months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        const month = Math.floor(Math.random() * 12);
+        const day = Math.floor(Math.random() * months[month]);
+        const hour = Math.floor(Math.random() * 24);
+        const minute = Math.floor(Math.random() * 60);
+
+        const dateTime = new Date(2025, month, day, hour, minute).toISOString().split('T');
+        return dateTime[0] + ' ' + dateTime[1].split('.')[0];
+    } 
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos')
@@ -22,8 +33,7 @@ function App() {
       .then(data => {
         data = data.map((element: Todo) => {
           if (element.completed) {
-            const dateTime = new Date(2026, 2, 18).toISOString().split('T');
-            return { ...element, date: dateTime[0] + ' ' +dateTime[1].split('.')[0] };
+            return { ...element, date: randomDate() };
           }
           return element;
         });

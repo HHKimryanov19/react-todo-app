@@ -14,6 +14,7 @@ export default function UndoButton({ item }: Props) {
 
         function sort(newList: Todo[]) {
             if (context != null) {
+                console.log(context.sortType)
                 context.setPending([...newList].sort((a, b) => {
                     return a.title > b.title ? 1 * context.sortType : a.title < b.title ? -1 * context.sortType : 0;
                 }))
