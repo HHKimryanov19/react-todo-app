@@ -3,13 +3,18 @@
 ![LaptopOrBigger](./Screenshots/LaptopOrBigger.png)
 2. For devices with size between tablet and laptop
 
-![Tablets](./Screenshots/Tablet1.png)
-![Tablets](./Screenshots/Tablet2.png)
+<p align="center">
+  <img src="./Screenshots/Tablet1.png" height = "250px" alt="Tablet View 1" />
+  <img src="./Screenshots/Tablet2.png" height = "250px" alt="Tablet View 2" />
+</p>
+
 3. For devices smaller than tablet
 
-|||
-| :---: | :---: |
-| ![Tablets](./Screenshots/Mobile1.png)  | ![Tablets](./Screenshots/Mobile2.png)|
+<p align="center">
+  <img src="./Screenshots/Mobile1.png" height = "350px" alt="Tablet View 1" />
+  <img src="./Screenshots/Mobile2.png" height = "350px" alt="Tablet View 2" />
+</p>
+
 # Prerequisites
 - Node.js version : v24.14.1
 - Node Package Manager(npm) : 11.11.0
