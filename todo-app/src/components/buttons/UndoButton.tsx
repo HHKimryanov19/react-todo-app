@@ -1,23 +1,21 @@
-import type { todo } from '../../types/todo'
+import type { Todo } from '../../types/todo'
 import { ButtonContext } from '../../contexts/ButtonContext'
 import { useContext } from 'react'
 
 
-type props = {
-    item: todo
+type Props = {
+    item: Todo
 }
 
-export default function UndoButton({ item }: props) {
+export default function UndoButton({ item }: Props) {
     const context = useContext(ButtonContext)
 
     if (context != null) {
 
-        function sortPending(newList: todo[]) {
+        function sort(newList: Todo[]) {
             if (context != null) {
-                let sortType: number = context.sortType;
-
                 context.setPending([...newList].sort((a, b) => {
-                    return a.title > b.title ? 1 * sortType : a.title < b.title ? -1 * sortType : 0;
+                    return a.title > b.title ? 1 * context.sortType : a.title < b.title ? -1 * context.sortType : 0;
                 }))
             }
         }
@@ -31,7 +29,7 @@ export default function UndoButton({ item }: props) {
                     else {
                         task.completed = false;
                         task.date = '';
-                        sortPending([...context.pending, task]);
+                        sort([...context.pending, task]);
                     }
                 });
             })

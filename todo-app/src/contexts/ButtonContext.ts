@@ -1,12 +1,12 @@
 import { createContext } from "react";
-import type {todo} from '../types/todo'
+import type {Todo} from '../types/todo'
 
-type buttonContext = {
-    pending: todo[],
-    completed: todo[],
-    setPending: (prop: React.SetStateAction<todo[]>) => void,
-    setCompleted: (prop: React.SetStateAction<todo[]>) => void,
+type ButtonContextType = {
+    pending: Todo[],
+    completed: Todo[],
+    setPending: (prop: React.SetStateAction<Todo[]>) => void,
+    setCompleted: (prop: React.SetStateAction<Todo[]>) => void,
     sortType: number,
 }
 
-export const ButtonContext = createContext<buttonContext | null>(null)
+export const ButtonContext = createContext<ButtonContextType | null>(null)

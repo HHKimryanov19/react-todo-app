@@ -40,7 +40,7 @@ button:hover {
   margin-right: 10px;
 }
 
-.unactive-btn,
-.unactive-btn:hover {
+.inactive-btn,
+.inactive-btn:hover {
   background-color: gray;
 }

@@ -1,20 +1,17 @@
-import type { todo } from '../../types/todo'
+import type { Todo } from '../../types/todo'
 import { ButtonContext } from '../../contexts/ButtonContext'
 import { useContext } from 'react'
 
-type prop = {
-    item: todo
+type Props = {
+    item: Todo
 }
-
-export default function CompleteButton({ item }: prop) {
+export default function CompleteButton({ item }: Props) {
     const context = useContext(ButtonContext)
     if (context != null) {
-        function sortCompleted(newList: todo[]) {
+        function sort(newList: Todo[]) {
             if (context != null) {
-                let sortType: number = context.sortType;
-
                 context.setCompleted([...newList].sort((a, b) => {
-                    return a.date > b.date ? 1 * sortType : a.date < b.date ? -1 * sortType : 0;
+                    return a.date > b.date ? 1 * context.sortType : a.date < b.date ? -1 * context.sortType : 0;
                 }))
             }
         }
@@ -27,9 +24,9 @@ export default function CompleteButton({ item }: prop) {
                     }
                     else {
                         task.completed = true;
-                        let dateTime = new Date().toISOString().split('T');
+                        const dateTime = new Date().toISOString().split('T');
                         task.date = dateTime[0] + ' ' + dateTime[1].split('.')[0];
-                        sortCompleted([...context.completed, task]);
+                        sort([...context.completed, task]);
                     }
                 });
             })

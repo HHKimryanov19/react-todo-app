@@ -4,7 +4,7 @@ import { ButtonContext } from '../../contexts/ButtonContext'
 import PaginationButtons from '../buttons/PaginationButtons'
 import { useContext, useEffect, useState } from 'react'
 
-export default function PendingList() {
+export default function PendingSection() {
     const [page, setPage] = useState<number>(0);
     const context = useContext(SectionContext)
     if (context != null) {
@@ -14,10 +14,8 @@ export default function PendingList() {
         }, [context.person])
 
         useEffect(() => {
-            let sort = context.pendingSortType;
-
             context?.setPending([...context.pending].sort((a, b) => {
-                return a.title > b.title ? 1 * sort : a.title < b.title ? -1 * sort : 0;
+                return a.title > b.title ? 1 * context.pendingSortType : a.title < b.title ? -1 * context.pendingSortType : 0;
             }))
         }, [context.pendingSortType])
 
@@ -28,10 +26,10 @@ export default function PendingList() {
                         <div>
                             <label htmlFor="people">Filter by:</label>
                             <select id='people' onChange={e => context.setPerson(parseInt(e.target.value))}>
-                                <option value={-1}>All users</option>
+                                <option key={-1} value={-1}>All users</option>
                                 {
                                     context.users.map((item) => (
-                                        <option value={item.id}>{item.username}</option>
+                                        <option key={item.id} value={item.id}>{item.username}</option>
                                     ))
                                 }
                             </select>

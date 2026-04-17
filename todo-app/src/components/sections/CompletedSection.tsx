@@ -4,7 +4,7 @@ import { ButtonContext } from '../../contexts/ButtonContext'
 import { useContext, useEffect, useState } from 'react'
 import PaginationButtons from '../buttons/PaginationButtons'
 
-export default function CompletedList() {
+export default function CompletedSection() {
   const [page, setPage] = useState<number>(0);
   const context = useContext(SectionContext)
 
@@ -14,10 +14,8 @@ export default function CompletedList() {
     }, [context.person])
 
     useEffect(() => {
-      let sort = context.completedSortType;
-
       context?.setCompleted([...context.completed].sort((a, b) => {
-        return a.date > b.date ? 1 * sort : a.date < b.date ? -1 * sort : 0;
+        return a.date > b.date ? 1 * context.completedSortType : a.date < b.date ? -1 * context.completedSortType : 0;
       }))
     }, [context.completedSortType])
 
