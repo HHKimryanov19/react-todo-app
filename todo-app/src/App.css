@@ -59,9 +59,25 @@ body {
     width: 80%;
     margin-left: 10%;
   }
+}
+
+@media (min-width:600px) and (max-width: 768px) {
+
+  section {
+    width: 70%;
+    margin-left: 15%;
+    margin-bottom: 50px;
+  }
+
+  ul{
+    margin-top: 10px;
+  }
+
+  li {
+    display: flex;
+  }
 
   .complete-btn {
-    width: 80%;
-    margin-left: 10%;
+    width: fit-content;
   }
 }

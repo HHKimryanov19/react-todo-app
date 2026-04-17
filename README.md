@@ -1,8 +1,15 @@
-# react-todo-app
 # Project screenshots
-1. App in full screen
-![App Screenshot](./app-screenshot.png)
-2. In smaller screens
+1. For laptops and bigger devices
+![LaptopOrBigger](./Screenshots/LaptopOrBigger.png)
+2. For devices with size between tablet and laptop
+
+![Tablets](./Screenshots/Tablet1.png)
+![Tablets](./Screenshots/Tablet2.png)
+3. For devices smaller than tablet
+
+|||
+| :---: | :---: |
+| ![Tablets](./Screenshots/Mobile1.png)  | ![Tablets](./Screenshots/Mobile2.png)|
 # Prerequisites
 - Node.js version : v24.14.1
 - Node Package Manager(npm) : 11.11.0
