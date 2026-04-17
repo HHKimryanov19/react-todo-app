@@ -4,15 +4,15 @@
 2. For devices with size between tablet and laptop
 
 <p align="center">
-  <img src="./Screenshots/Tablet1.png" height = "250px" alt="Tablet View 1" />
-  <img src="./Screenshots/Tablet2.png" height = "250px" alt="Tablet View 2" />
+  <img src="./Screenshots/Tablet1.png" height = "400px" alt="Tablet View 1" />
+  <img src="./Screenshots/Tablet2.png" height = "400px" alt="Tablet View 2" />
 </p>
 
 3. For devices smaller than tablet
 
 <p align="center">
-  <img src="./Screenshots/Mobile1.png" height = "350px" alt="Tablet View 1" />
-  <img src="./Screenshots/Mobile2.png" height = "350px" alt="Tablet View 2" />
+  <img src="./Screenshots/Mobile1.png" height = "640px" alt="Tablet View 1" />
+  <img src="./Screenshots/Mobile2.png" width = "300px" alt="Tablet View 2" />
 </p>
 
 # Prerequisites
